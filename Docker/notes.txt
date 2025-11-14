@@ -21,3 +21,18 @@ $ docker stop busyboxtest
 $ docker run -d -p 8080:80 nginx
 
 
+################## Building Images Using Dockerfile
+
+# Check project3 for Dockerfile sample
+
+# Build an image from a Dockerfile in the current directory
+$ docker build --tag testbuild:v1 .
+$ docker images
+$ docker run -d --rm --name testbuild testbuild:v1 bash
+
+# Best Practices & Tips:
+# 1. Create a dedicated directory (e.g., /app/) containing only the files needed for your application.
+#    When copying directory contents to the container's working directory, Docker will copy everything,
+#    which unnecessarily increases the image size.
+# 2. Create a .dockerignore file to exclude unnecessary files and directories from the build context.
+# 3. Consider Dockerfile best practices (will work on this next).
