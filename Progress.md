@@ -6,3 +6,11 @@
 - Updated LinkedIn and GitHub with progress
 
 Next: Docker + Images + Containers
+
+
+### Week 2 – Dockerized Application
+- Built first Dockerfile
+- Ran container locally
+- Learned port mapping (-p)
+- Practiced image tagging and removal
+- Used best practices in Dockerfile
