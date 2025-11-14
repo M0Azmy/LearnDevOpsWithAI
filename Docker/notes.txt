@@ -1,0 +1,23 @@
+CONCEPT: Docker container
+
+# WHAT IT DOES: Lightweight isolated environment for applications.
+# Container = process, not a full VM.
+
+# COMMANDs:
+
+# Pull an image from Docker Hub
+$ docker pull <image>
+
+# Run a container in detached mode (-d), remove on exit (--rm), with custom name
+$ docker run -d --rm --name busyboxtest busybox sleep 3600
+
+# List running containers
+$ docker ps
+
+# Stop a running container
+$ docker stop busyboxtest
+
+# Run nginx container with port mapping (host:container)
+$ docker run -d -p 8080:80 nginx
+
+
