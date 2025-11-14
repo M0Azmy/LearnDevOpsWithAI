@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # 1. Define the Redis cache service
+  cache:
+    image: redis:alpine # Using 'alpine' is a good DevOps practice for smaller images
+    # No ports needed, as we access it internally
+    networks:
+      - app-network
+
+  # 2. Define the custom application service
+  app:
+    build: ./app # Correct build context path (where Dockerfile and app.py live)
+    ports:
+      - "8888:5000" # Map host 8888 to container port 5000 (Flask default)
+    
+    # 3. Environment variables (Internal and .env)
+    environment:
+      # CRITICAL: This allows app.py to resolve the 'cache' service host on the network.
+      REDIS_HOST: cache 
+    
+    # 4. Inject the .env file variables (like GREETING_MESSAGE)
+    env_file:
+      - .env
+
+    networks:
+      - app-network
+
+# 5. Define the custom network at the top level (as it was used above)
+networks:
+  app-network:
+    driver: bridge # Optional: 'bridge' is the default

@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./app:/usr/src/app:delegated
+    restart: unless-stopped
+  web:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    depends_on:
+      - app
+    restart: unless-stopped

@@ -1,0 +1,18 @@
+services:
+  cache:
+    image: redis:latest
+    networks:
+      - app-network
+
+  app:
+    build: Dockerfile
+    ports:
+      - "8888:5000"
+    networks:
+      - app-network
+
+  networks:
+    - app-network
+
+env_file:
+  - .env

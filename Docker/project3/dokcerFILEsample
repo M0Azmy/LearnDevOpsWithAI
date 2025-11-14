@@ -1,0 +1,14 @@
+# uses base image -->
+FROM python:3.9-slim
+
+# create a directory 
+WORKDIR /app
+
+# copies host current directory content , to the container's current directory
+COPY . .
+
+# installs what is included in this file
+RUN pip install -r requirements.txt
+
+# execute the following command
+CMD ["python", "app.py"]
