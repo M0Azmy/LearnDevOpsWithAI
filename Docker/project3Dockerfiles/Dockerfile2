@@ -1,0 +1,45 @@
+# In this Dockerfile, we will follow the best practices for a Dockerfile.
+
+# Dockerfile for a simple flask app "hello-world"
+
+# Use the official python image as the base image
+# we will use multi-stage, first stage is the "builder"
+FROM python:3.10-slim AS builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY ./app/requirements.txt .
+
+# Install the dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+# Final stage "final"
+FROM python:3.10-slim AS final
+
+WORKDIR /app
+
+# Copy the installed dependencies from builder stage
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Create non-root user before copying files
+RUN adduser --disabled-password --gecos '' appuser
+
+# Copy application code
+COPY ./app/app.py .
+
+# Change ownership of app directory to non-root user (must be done as root)
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose the port 5000
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "app.py"]
+
