@@ -14,3 +14,7 @@ Next: Docker + Images + Containers
 - Learned port mapping (-p)
 - Practiced image tagging and removal
 - Used best practices in Dockerfile
+- Pushed it to Docker Hub: https://hub.docker.com/repositories/mohazmy
+
+Next: Kubernetes + Container Orchestration
+
