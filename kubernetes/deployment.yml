@@ -1,0 +1,39 @@
+
+# This is a deployment.yml sample --->
+==========================================
+
+
+# Specifies the API version for Kubernetes resources
+apiVersion: apps/v1
+
+# Defines the type of resource; here it's a Deployment
+kind: Deployment
+
+metadata:
+  # Name of the Deployment object
+  name: httpd
+
+spec:
+  # Number of pod replicas to run
+  replicas: 2
+
+  # Selector to match pods managed by this Deployment
+  selector:
+    matchLabels:
+      # Pods must have this label to be part of the Deployment
+      app: httpd
+
+  # Template for creating pods
+  template:
+    metadata:
+      # Labels applied to pods created by this template
+      labels:
+        app: httpd
+    spec:
+      # List of containers that will run inside each pod
+      containers:
+      - name: httpd                # Name of the container
+        image: httpd               # Docker image to use (Apache HTTP Server)
+        ports:                     # Ports exposed by the container
+        # You can specify container ports like:
+        # - containerPort: 80
