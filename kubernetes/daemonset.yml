@@ -1,0 +1,35 @@
+
+# This is a daemonSet.yml sample --->
+==========================================
+
+# A DaemonSet ensures that one pod runs on every node in the cluster (or on a subset of nodes if you use node selectors).
+
+# Specifies the API version for Kubernetes resources
+apiVersion: apps/v1
+
+# Defines the type of resource; here it's a DaemonSet
+kind: DaemonSet
+
+metadata:
+  # Name of the DaemonSet object
+  name: busybox-daemonset
+
+spec:
+  # Selector to identify which pods belong to this DaemonSet
+  selector:
+    matchLabels:
+      # Pods must have this label to be managed by the DaemonSet
+      app: busybox-daemonset
+
+  # Template for creating pods
+  template:
+    metadata:
+      # Labels applied to pods created by this template
+      labels:
+        app: busybox-daemonset
+    spec:
+      # List of containers that will run inside each pod
+      containers:
+      - name: busybox                     # Name of the container
+        image: busybox                    # Docker image (BusyBox lightweight Linux)
+        command: ["sh", "-c", "sleep 3600"] # Command to run inside the container (sleep for 1 hour)
