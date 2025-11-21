@@ -1,7 +1,8 @@
 # 🚀 Learn DevOps With AI
 
-Welcome to LearnDevOpsWithAI – your personal lab for mastering DevOps practices while leveraging AI-powered tools to automate workflows, optimize processes, and accelerate learning.
+Welcome to **LearnDevOpsWithAI** – your personal lab for mastering DevOps practices while leveraging **AI-powered tools** to automate workflows, optimize processes, and accelerate learning.
 
+---
 
 ## 📚 Learning Goals
 
@@ -17,5 +18,17 @@ Welcome to LearnDevOpsWithAI – your personal lab for mastering DevOps practice
 - ✅ **Experiment with AI-assisted scripting and troubleshooting**  
   Use AI tools to generate scripts, debug issues, and improve efficiency.
 
+- ✅ **Learn Kubernetes with Minikube
+  Set up a local Kubernetes cluster using Minikube, practice deploying workloads, and simulate multi-node environments for real-world testing.
 
-  ✨ *This repo will be updated occasionally as new learning goals and features are added.*
+✨ *This repo will be updated occasionally as new learning goals and features are added.*
+
+
+---
+
+## ☸️ Kubernetes with Minikube
+
+### ✅ Why Minikube?
+Minikube is a lightweight Kubernetes implementation that runs locally, perfect for learning and testing without cloud costs.
+
+---
