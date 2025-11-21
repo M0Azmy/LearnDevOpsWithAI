@@ -1,0 +1,37 @@
+# This is a replicaset.yml sample --->
+==========================================
+
+
+# Specifies the API version for Kubernetes resources
+apiVersion: apps/v1
+
+# Defines the type of resource; here it's a ReplicaSet
+kind: ReplicaSet
+
+metadata:
+  # Name of the ReplicaSet object
+  name: nginx
+
+spec:
+  # Number of pod replicas to maintain
+  replicas: 7
+
+  # Selector to identify which pods belong to this ReplicaSet
+  selector:
+    matchLabels:
+      # Pods must have this label to be managed by the ReplicaSet
+      app: nginx
+
+  # Template for creating pods
+  template:
+    metadata:
+      # Labels applied to pods created by this template
+      labels:
+        app: nginx
+    spec:
+      # List of containers that will run inside each pod
+      containers:
+      - name: nginx                # Name of the container
+        image: nginx:1.14.2        # Docker image (specific version of NGINX)
+        ports:
+        - containerPort: 80        # Exposes port 80 for HTTP traffic
