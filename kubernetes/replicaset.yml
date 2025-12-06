@@ -14,7 +14,7 @@ metadata:
 
 spec:
   # Number of pod replicas to maintain
-  replicas: 7
+  replicas: 3
 
   # Selector to identify which pods belong to this ReplicaSet
   selector:
