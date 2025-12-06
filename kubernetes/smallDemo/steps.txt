@@ -1,0 +1,8 @@
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+minikube ip
+
+http://<minikube-ip>:30070
+
+https://github.com/DevOps-capsule/Kubernetes-labs/tree/main/nodeport-service
