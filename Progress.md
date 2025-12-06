@@ -18,3 +18,12 @@ Next: Docker + Images + Containers
 
 Next: Kubernetes + Container Orchestration
 
+
+
+### Week 3 – Kubernetes Basics
+- Deployed first Kubernetes app using Deployment + Service
+- Learned Pods, ReplicaSets, Deployments, Services
+- Performed rolling updates
+- Understood NodePort and ClusterIP networking
+Next Focus:
+- ConfigMaps, Secrets, Ingress, namespaces
