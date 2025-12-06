@@ -25,5 +25,6 @@ Next: Kubernetes + Container Orchestration
 - Learned Pods, ReplicaSets, Deployments, Services
 - Performed rolling updates
 - Understood NodePort and ClusterIP networking
+  
 Next Focus:
 - ConfigMaps, Secrets, Ingress, namespaces
