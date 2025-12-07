@@ -1,0 +1,19 @@
+
+# Kubernetes ConfigMap definition
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # Name of the ConfigMap
+  name: my-configmap
+data:
+  # Simple key-value pairs
+  key1: value1
+  key2: value2
+
+  # Multi-line configuration file stored as a single key
+  # This is useful for application properties or config files
+  app-config.properties: |
+    # Application-specific properties
+    property1=value1
+    property2=value2
+

@@ -1,0 +1,29 @@
+
+# -------------------------------
+# Pod: Mounts a ConfigMap as a volume
+# -------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  # Name of the Pod
+  name: my-pod-volume
+spec:
+  containers:
+  - name: my-container
+    # Container image
+    image: nginx:stable-alpine
+
+    # Mount the ConfigMap as a volume inside the container
+    volumeMounts:
+    - name: config-volume
+      # Path inside the container where the ConfigMap will be mounted
+      mountPath: /etc/config
+
+  # Define volumes for the Pod
+  volumes:
+  - name: config-volume
+    # Use the ConfigMap as the source for this volume
+    configMap:
+      # Reference the ConfigMap by name
+      name: my-configmap
+
