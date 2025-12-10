@@ -1,0 +1,343 @@
+COMPUTED VALUES:
+affinity: {}
+args: []
+automountServiceAccountToken: false
+autoscaling:
+  enabled: false
+  maxReplicas: ""
+  minReplicas: ""
+  targetCPU: ""
+  targetMemory: ""
+backendTLSPolicy:
+  annotations: {}
+  enabled: false
+  hostname: ""
+  labels: {}
+  subjectAltNames: []
+cloneStaticSiteFromGit:
+  branch: ""
+  enabled: false
+  extraEnvVars: []
+  extraEnvVarsSecret: ""
+  extraVolumeMounts: []
+  gitClone:
+    args: []
+    command: []
+  gitSync:
+    args: []
+    command: []
+    fips:
+      openssl: ""
+    resources: {}
+    resourcesPreset: nano
+  image:
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: registry-1.docker.io
+    repository: bitnami/git
+    tag: latest
+  interval: 60
+  repository: ""
+clusterDomain: cluster.local
+command: []
+common:
+  exampleValue: common-chart
+  global:
+    compatibility:
+      openshift:
+        adaptSecurityContext: auto
+    defaultFips: restricted
+    imagePullSecrets: []
+    imageRegistry: ""
+    security:
+      allowInsecureImages: false
+commonAnnotations: {}
+commonLabels: {}
+containerPorts:
+  http: 8080
+  https: 8443
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+    - ALL
+  enabled: true
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsGroup: 1001
+  runAsNonRoot: true
+  runAsUser: 1001
+  seLinuxOptions: {}
+  seccompProfile:
+    type: RuntimeDefault
+contextIncludes:
+  events: ""
+  http: ""
+  main: ""
+customLivenessProbe: {}
+customReadinessProbe: {}
+customStartupProbe: {}
+diagnosticMode:
+  args:
+  - infinity
+  command:
+  - sleep
+  enabled: false
+dnsConfig: {}
+dnsPolicy: ""
+enableDefaultInitContainers: true
+existingContextEventsConfigmaps: []
+existingContextHttpConfigmaps: []
+existingContextMainConfigmaps: []
+existingServerBlockConfigmap: ""
+existingStreamServerBlockConfigmap: ""
+extraContainerPorts: []
+extraDeploy: []
+extraEnvVars: []
+extraEnvVarsCM: ""
+extraEnvVarsSecret: ""
+extraVolumeMounts: []
+extraVolumes: []
+fips:
+  openssl: ""
+fullnameOverride: ""
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: auto
+  defaultFips: restricted
+  imagePullSecrets: []
+  imageRegistry: ""
+  security:
+    allowInsecureImages: false
+healthIngress:
+  annotations: {}
+  enabled: false
+  extraHosts: []
+  extraPaths: []
+  extraRules: []
+  extraTls: []
+  hostname: example.local
+  ingressClassName: ""
+  path: /
+  pathType: ImplementationSpecific
+  secrets: []
+  selfSigned: false
+  tls: false
+hostAliases: []
+hostIPC: false
+hostNetwork: false
+httpRoute:
+  annotations: {}
+  enabled: false
+  extraRules: []
+  filters: []
+  hostnames:
+  - nginx.local
+  labels: {}
+  matches:
+  - path:
+      type: PathPrefix
+      value: /
+  parentRefs: []
+image:
+  debug: false
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+  registry: registry-1.docker.io
+  repository: bitnami/nginx
+  tag: latest
+ingress:
+  annotations: {}
+  apiVersion: ""
+  enabled: false
+  extraHosts: []
+  extraPaths: []
+  extraRules: []
+  extraTls: []
+  hostname: nginx.local
+  ingressClassName: ""
+  path: /
+  pathType: ImplementationSpecific
+  secrets: []
+  selfSigned: false
+  tls: false
+  tlsWwwPrefix: false
+initContainers: []
+kubeVersion: ""
+lifecycleHooks: {}
+livenessProbe:
+  enabled: true
+  failureThreshold: 6
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+metrics:
+  containerPorts:
+    metrics: 9113
+  customLivenessProbe: {}
+  customReadinessProbe: {}
+  customStartupProbe: {}
+  enabled: false
+  extraArgs: []
+  fips:
+    golang: restricted
+    openssl: ""
+  image:
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+    registry: registry-1.docker.io
+    repository: bitnami/nginx-exporter
+    tag: latest
+  livenessProbe:
+    enabled: true
+    failureThreshold: 2
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 5
+  podAnnotations: {}
+  port: ""
+  prometheusRule:
+    additionalLabels: {}
+    enabled: false
+    namespace: ""
+    rules: []
+  readinessProbe:
+    enabled: true
+    failureThreshold: 2
+    initialDelaySeconds: 5
+    periodSeconds: 30
+    successThreshold: 1
+    timeoutSeconds: 3
+  resources: {}
+  resourcesPreset: nano
+  securityContext:
+    enabled: false
+    runAsUser: 1001
+    seLinuxOptions: {}
+  service:
+    annotations:
+      prometheus.io/port: '{{ .Values.metrics.service.port }}'
+      prometheus.io/scrape: "true"
+    port: 9113
+  serviceMonitor:
+    enabled: false
+    honorLabels: false
+    interval: ""
+    jobLabel: ""
+    labels: {}
+    metricRelabelings: []
+    namespace: ""
+    relabelings: []
+    scrapeTimeout: ""
+    selector: {}
+    tlsConfig: {}
+  startupProbe:
+    enabled: false
+    failureThreshold: 10
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 3
+nameOverride: ""
+namespaceOverride: ""
+networkPolicy:
+  allowExternal: true
+  allowExternalEgress: true
+  enabled: true
+  extraEgress: []
+  extraIngress: []
+  ingressNSMatchLabels: {}
+  ingressNSPodMatchLabels: {}
+nodeAffinityPreset:
+  key: ""
+  type: ""
+  values: []
+nodeSelector: {}
+pdb:
+  create: true
+  maxUnavailable: ""
+  minAvailable: ""
+podAffinityPreset: ""
+podAnnotations: {}
+podAntiAffinityPreset: soft
+podLabels: {}
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+  fsGroupChangePolicy: Always
+  supplementalGroups: []
+  sysctls: []
+priorityClassName: ""
+readinessProbe:
+  enabled: true
+  failureThreshold: 3
+  initialDelaySeconds: 5
+  path: /
+  periodSeconds: 5
+  successThreshold: 1
+  timeoutSeconds: 3
+replicaCount: 1
+resources: {}
+resourcesPreset: nano
+revisionHistoryLimit: 10
+schedulerName: ""
+serverBlock: ""
+service:
+  annotations: {}
+  clusterIP: ""
+  externalTrafficPolicy: Cluster
+  extraPorts: []
+  loadBalancerClass: ""
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  nodePorts:
+    http: ""
+    https: ""
+  ports:
+    http: 8090
+    https: 443
+  sessionAffinity: None
+  sessionAffinityConfig: {}
+  targetPort:
+    http: http
+    https: https
+  type: LoadBalancer
+serviceAccount:
+  annotations: {}
+  automountServiceAccountToken: false
+  create: true
+  name: ""
+sidecarSingleProcessNamespace: false
+sidecars: []
+startupProbe:
+  enabled: false
+  failureThreshold: 6
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 5
+staticSiteConfigmap: ""
+staticSitePVC: ""
+streamServerBlock: ""
+terminationGracePeriodSeconds: ""
+tls:
+  autoGenerated: true
+  ca: ""
+  cert: ""
+  certCAFilename: ca.crt
+  certFilename: tls.crt
+  certKeyFilename: tls.key
+  enabled: true
+  existingSecret: ""
+  key: ""
+tolerations: []
+topologySpreadConstraints: []
+updateStrategy:
+  rollingUpdate: {}
+  type: RollingUpdate
