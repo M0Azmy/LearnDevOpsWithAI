@@ -1,44 +1,247 @@
-Helm Commands Cheat Sheet
---------------------------
 
-Quick reference for common Helm commands, including installation, upgrades, dry runs, template rendering, and
-value overrides.
+# 🚀 Helm Commands Cheat Sheet  
+*A quick reference for essential Helm operations: installation, upgrades, dry runs, template rendering, and value overrides.*
 
-1) Install a Chart
-$ helm install
-$ helm install my-nginx bitnami/nginx
+---
 
-With overrides:
-$ helm install my-nginx bitnami/nginx --set service.type=NodePort --set service.nodePort=30080
+## 📌 Table of Contents
+1. Setup & Repo Management
+2. Install a Chart
+3. Dry Run & Debug
+4. Render Templates Locally
+5. Show Chart Defaults
+6. List & Inspect Releases
+7. Upgrade a Release
+8. Rollback
+9. Uninstall
+10. Common Overrides
+11. Helm Best Practices
+12. Troubleshooting Tips
 
-2) Dry Run & Debug
-$ helm install my-nginx bitnami/nginx --dry-run --debug
+---
 
-3) Render Templates Locally
-$ helm template my-nginx bitnami/nginx > output.yaml
+## ✅ 1. Setup & Repo Management
+```bash
+# Add a Helm repo (register a chart source)
+helm repo add bitnami https://charts.bitnami.com/bitnami
 
-4) Show Chart Defaults
-$ helm show values bitnami/nginx
+# Update all repos (refresh chart list)
+helm repo update
 
-5) Upgrade a Release
-$ helm upgrade my-nginx bitnami/nginx --set replicaCount=3
+# Search for charts in repos
+helm search repo nginx
+```
 
-6) Rollback
-$ helm rollback my-nginx 1
+---
 
-7) List & Status
-$ helm list helm status my-nginx
+## ✅ 2. Install a Chart
+```bash
+# Install a chart (deploy an application)
+helm install <release-name> <chart>
+helm install my-nginx bitnami/nginx
+```
 
-8) Inspect Release
-$ helm get values my-nginx helm get manifest my-nginx
+**With overrides:**
+```bash
+# Install with custom values (override defaults)
+helm install my-nginx bitnami/nginx \
+  --set service.type=NodePort \
+  --set service.nodePort=30080
+```
 
-9) Uninstall
-$ helm uninstall my-nginx
+---
 
-Common Overrides
-replicaCount=3 
-image.repository=nginx 
-image.tag=alpine 
+## ✅ 3. Dry Run & Debug
+```bash
+# Simulate installation without applying changes
+helm install my-nginx bitnami/nginx --dry-run --debug
+```
+
+---
+
+## ✅ 4. Render Templates Locally
+```bash
+# Generate Kubernetes manifests without installing
+helm template my-nginx bitnami/nginx > output.yaml
+```
+
+---
+
+## ✅ 5. Show Chart Defaults
+```bash
+# Display default values for a chart
+helm show values bitnami/nginx
+```
+
+---
+
+## ✅ 6. List & Inspect Releases
+```bash
+# List all installed releases
+helm list
+
+# Check status of a specific release
+helm status my-nginx
+
+# View applied values for a release
+helm get values my-nginx
+
+# View full manifest applied to cluster
+helm get manifest my-nginx
+```
+
+---
+
+## ✅ 7. Upgrade a Release
+```bash
+# Update an existing release with new chart or values
+helm upgrade my-nginx bitnami/nginx --set replicaCount=3
+```
+
+---
+
+## ✅ 8. Rollback
+```bash
+# Revert a release to a previous revision
+helm rollback my-nginx 1
+```
+
+---
+
+## ✅ 9. Uninstall
+```bash
+# Remove a release and its resources
+helm uninstall my-nginx
+```
+
+---
+
+## ✅ 10. Common Overrides
+```yaml
+replicaCount=3
+image.repository=nginx
+image.tag=alpine
 service.type=NodePort
-service.nodePort=30080 
+service.nodePort=30080
 fullnameOverride=beta
+```
+
+---
+
+## ✅ 11. Helm Best Practices
+- **Always use `--dry-run` before applying changes** to avoid surprises.
+- **Pin chart versions** for stability:
+  ```bash
+  helm install my-nginx bitnami/nginx --version 15.0.0
+  ```
+- **Use `values.yaml` for complex overrides** instead of multiple `--set` flags.
+- **Enable rollback strategy** in CI/CD pipelines.
+- **Regularly update repos** with `helm repo update`.
+- **Validate charts** before deploying:
+  ```bash
+  helm lint ./my-chart
+  ```
+- **Namespace isolation**: Always specify `--namespace` for clarity.
+
+---
+
+
+## ✅ 12. Troubleshooting Tips (TBS)
+- **Check Helm client & server versions**:
+  ```bash
+  helm version
+  ```
+- **Debug failed installs/upgrades**:
+  ```bash
+  helm install my-nginx bitnami/nginx --dry-run --debug
+  ```
+- **View Kubernetes events**:
+  ```bash
+  kubectl describe pod <pod-name>
+  ```
+- **Clear failed releases**:
+  ```bash
+   helm uninstall <release-name>
+  ```
+- **If CRDs fail**: Apply CRDs first, then install chart.
+
+---
+
+🔥 **Pro Tip:** Combine Helm with GitOps tools like ArgoCD or Flux for production-grade deployments.
+
+
+---
+
+## ✅ 13. Working with `values.yaml`
+
+### 📌 What is `values.yaml`?
+- The **configuration file for Helm charts**.
+- Defines **default values** used by chart templates.
+- You can **override these defaults** during install or upgrade using:
+  - `--set key=value` flags (quick overrides).
+  - `-f custom-values.yaml` (recommended for complex configs).
+
+---
+
+### ✅ Example `values.yaml` (Basic)
+```yaml
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+```
+
+---
+
+### ✅ How to Use It
+```bash
+# Install using custom values.yaml
+helm install demo ./demo -f values.yaml
+
+# Upgrade using custom values.yaml
+helm upgrade demo ./demo -f values.yaml
+```
+
+---
+
+### ✅ Override Multiple Files (Merging)
+```bash
+# Merge multiple values files (later files override earlier ones)
+helm install demo ./demo -f base-values.yaml -f prod-values.yaml
+```
+
+---
+
+### ✅ Combine File and Inline Overrides
+```bash
+helm install demo ./demo -f values.yaml --set replicaCount=5 --set service.type=NodePort
+```
+
+---
+
+### ✅ Best Practices for `values.yaml`
+- **Keep environment-specific files** (e.g., `dev-values.yaml`, `prod-values.yaml`).
+- **Use `helm show values <chart>`** to see all available keys before customizing.
+- **Avoid too many `--set` flags**; prefer a file for clarity and version control.
+- **Document overrides** in your repo for reproducibility.
+- **Validate your file**:
+  ```bash
+  helm lint ./demo
+  ```
+
+---
+
+🔥 **Pro Tip:** Store your `values.yaml` files in Git for traceability and use them in CI/CD pipelines.
+
+
