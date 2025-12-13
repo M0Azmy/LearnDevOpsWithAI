@@ -7,7 +7,7 @@
 
 Next: Docker + Images + Containers
 
-
+---
 ### Week 2 – Dockerized Application
 - Built first Dockerfile
 - Ran container locally
@@ -18,7 +18,7 @@ Next: Docker + Images + Containers
 
 Next: Kubernetes + Container Orchestration
 
-
+---
 
 ### Week 3 – Kubernetes Basics
 - Deployed first Kubernetes app using Deployment + Service
@@ -28,3 +28,29 @@ Next: Kubernetes + Container Orchestration
   
 Next Focus:
 - ConfigMaps, Secrets, Ingress, namespaces
+
+
+---
+
+### Week 4 – Kubernetes Advanced
+- Injected configuration using ConfigMaps and Secrets
+- Implemented liveness and readiness probes
+- Added resource requests and limits
+- Configured PersistentVolumeClaim (PVC) for storage
+- Exposed application using Ingress (NGINX)
+- Enabled Horizontal Pod Autoscaler (HPA)
+
+Next Focus:
+- Helm charts, templating, reusable Kubernetes deployments
+
+---
+
+### Week 5 – Helm (Kubernetes Package Management)
+- Created Helm charts from existing Kubernetes manifests
+- Parameterized deployments using values.yaml
+- Implemented conditional logic for Service type and NodePort
+- Managed Helm release lifecycle (install, upgrade, rollback)
+- Deployed multiple environments (dev / prod) from a single chart
+
+Next Focus:
+- Ansible fundamentals, inventories, playbooks, roles
