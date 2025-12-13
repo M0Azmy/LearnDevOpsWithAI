@@ -245,3 +245,88 @@ helm install demo ./demo -f values.yaml --set replicaCount=5 --set service.type=
 🔥 **Pro Tip:** Store your `values.yaml` files in Git for traceability and use them in CI/CD pipelines.
 
 
+
+---
+
+## ✅ 14. Publishing Helm Charts to Artifact Hub
+
+### 📌 Why Publish?
+Artifact Hub is a central repository for Helm charts, making it easy to share and discover charts publicly or within your organization.
+
+---
+
+### ✅ Steps to Package and Publish
+
+#### 1. **Create or Prepare Your Chart**
+If you don’t have a chart yet:
+```bash
+helm create demo
+```
+This generates a basic chart in `./demo`.
+
+---
+
+#### 2. **Update Chart Metadata**
+Edit `Chart.yaml`:
+```yaml
+apiVersion: v2
+name: demo
+description: A simple Helm chart example
+type: application
+version: 0.1.0
+appVersion: "1.0"
+```
+
+---
+
+#### 3. **Package the Chart**
+```bash
+helm package ./demo
+```
+This creates a `.tgz` file like:
+```
+demo-0.1.0.tgz
+```
+
+---
+
+#### 4. **Generate an Index (for a Helm repo)**
+If you want to host your own repo:
+```bash
+helm repo index .
+```
+This creates `index.yaml` for your chart repository.
+
+---
+
+#### 5. **Upload to Artifact Hub**
+- Go to Artifact Hub.
+- Sign in with GitHub or another provider.
+- Create a **repository** (Helm type).
+- Upload your `.tgz` chart or link to your Helm repo.
+
+---
+
+### ✅ Best Practices Before Publishing
+- Run:
+  ```bash
+  helm lint ./demo
+  ```
+- Add a **README.md** with usage instructions.
+- Include **values.yaml** with clear defaults.
+- Add **LICENSE** and **annotations** in `Chart.yaml` for Artifact Hub metadata:
+  ```yaml
+  annotations:
+    artifacthub.io/changes: |
+      - Initial release
+    artifacthub.io/license: Apache-2.0
+    artifacthub.io/links: |
+      - name: Documentation
+        url: https://github.com/your-repo
+  ```
+
+---
+
+🔥 **Pro Tip:** Automate publishing with GitHub Actions using:
+[helm/chart-releaser-action](https://github.com/helm
+
