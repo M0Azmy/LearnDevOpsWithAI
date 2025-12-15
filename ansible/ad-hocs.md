@@ -78,3 +78,12 @@ ansible all -m copy -a "content=foo dest=/root/bar.txt" -C
 ### Best Practices
 - Use ad-hoc for quick tasks; playbooks for reusable workflows.
 
+
+---
+### Notes
+
+| Flag | What it asks for       | When needed                     |
+|------|------------------------|---------------------------------|
+| `-k` | SSH password          | When no SSH keys are used      |
+| `-b` | Enables sudo (become) | When you need root privileges  |
+| `-K` | Sudo password         | Sudo requires password         |
