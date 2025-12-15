@@ -1,5 +1,7 @@
 # Ansible Ad-Hoc Commands (Quick Guide)
 
+  Introduction to ad hoc commands : https://docs.ansible.com/projects/ansible/latest/command_guide/intro_adhoc.html#intro-adhoc
+
 Run one-off tasks without playbooks using `ansible` CLI.
 
 ## Syntax
@@ -75,5 +77,4 @@ ansible all -m copy -a "content=foo dest=/root/bar.txt" -C
 
 ### Best Practices
 - Use ad-hoc for quick tasks; playbooks for reusable workflows.
-- Quote carefully for shell variables.
-- Increase `-f` for large inventories.
+
