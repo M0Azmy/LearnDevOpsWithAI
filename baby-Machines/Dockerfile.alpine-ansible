@@ -1,0 +1,37 @@
+
+FROM alpine:latest
+
+# Install Python (for Ansible), OpenSSH (server), sudo, bash, shadow (for usermod/passwd)
+RUN apk update && apk add --no-cache \
+    python3 \
+    py3-pip \
+    openssh \
+    sudo \
+    bash \
+    shadow
+
+# Create ansible user, unlock account, remove password
+RUN adduser -D -s /bin/bash ansible && \
+    usermod -U ansible && \
+    passwd -d ansible && \
+    echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible
+
+# Harden SSH config: disable root login, disable password auth, enable pubkey auth
+RUN sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config && \
+    sed -i 's/#PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
+    echo "AuthorizedKeysFile .ssh/authorized_keys" >> /etc/ssh/sshd_config
+
+# Prepare ansible home and .ssh directory
+RUN mkdir -p /home/ansible/.ssh && \
+    chmod 700 /home/ansible/.ssh && \
+    chmod 755 /home/ansible && \
+    chown -R ansible:ansible /home/ansible
+
+# Generate SSH host keys at build time (simpler for lab)
+RUN ssh-keygen -A
+
+EXPOSE 22
+
+# Run sshd in foreground
+CMD ["/usr/sbin/sshd", "-D", "-e"]
