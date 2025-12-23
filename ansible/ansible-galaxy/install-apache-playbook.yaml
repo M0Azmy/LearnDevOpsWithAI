@@ -1,23 +1,6 @@
 
 ---
-- name: Install Apache on all hosts
-  hosts: lab2
-  become: true   # Use sudo to get root privileges
-  tasks:
-    - name: Install Apache package
-      ansible.builtin.apt:
-        name: apache2
-        state: present
-
-    - name: Ensure Apache service is started and enabled
-      ansible.builtin.service:
-        name: apache2
-        state: started
-
-    - name: Copy index file
-      ansible.builtin.copy:
-        src: index.html
-        dest: /var/www/html/index.html
-        owner: root
-        group: root
-        mode: '0644'
+- hosts: lab2
+  become: true
+  roles:
+    - httpd
