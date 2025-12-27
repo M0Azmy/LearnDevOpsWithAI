@@ -1,0 +1,53 @@
+
+# Minimal RHEL-compatible base (UBI9 Minimal)
+FROM redhat/ubi9-minimal
+
+# Keep everything in one layer to reduce image size
+# - Install Python3 + pip (for Ansible), OpenSSH server, sudo, bash, shadow-utils (for useradd/usermod)
+# - Create 'ansible' user with passwordless sudo
+# - Harden sshd: no root login, no password auth, pubkey only
+# - Prepare home/.ssh with correct permissions
+# - Generate host keys at build time
+# - Clean package metadata
+RUN set -eux; \
+    microdnf update -y && \
+    microdnf install -y \
+        python3 \
+        python3-pip \
+        openssh-server \
+        sudo \
+        bash \
+        shadow-utils && \
+    microdnf clean all && \
+    \
+    # Create ansible user (shell bash), unlock account and clear password
+    useradd -m -s /bin/bash ansible && \
+    passwd -d ansible || true && \
+    usermod -U ansible || true && \
+    \
+    # Passwordless sudo for ansible
+    echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible && \
+    chmod 0440 /etc/sudoers.d/ansible && \
+    \
+    # SSH hardening: disable root login & passwords, enable pubkey auth
+    sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config && \
+    sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config && \
+    sed -i 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
+    # Ensure AuthorizedKeysFile points to ~/.ssh/authorized_keys (default on RHEL, we append for clarity)
+    grep -q "^AuthorizedKeysFile" /etc/ssh/sshd_config \
+      || echo "AuthorizedKeysFile .ssh/authorized_keys" >> /etc/ssh/sshd_config && \
+    \
+    # Prepare ansible home and .ssh dir with secure permissions
+    install -d -m 0755 -o ansible -g ansible /home/ansible && \
+    install -d -m 0700 -o ansible -g ansible /home/ansible/.ssh && \
+    \
+    # Generate SSH host keys during build (lab convenience)
+    ssh-keygen -A
+
+# Optional: simple healthcheck to confirm sshd running
+HEALTHCHECK CMD pgrep sshd || exit 1
+
+EXPOSE 22
+
+# Run sshd in foreground with verbose logging to stderr
+CMD ["/usr/sbin/sshd", "-D", "-e"]

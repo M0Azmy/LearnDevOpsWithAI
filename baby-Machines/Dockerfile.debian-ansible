@@ -1,0 +1,56 @@
+
+# Minimal Debian base (bookworm slim)
+FROM debian:bookworm-slim
+
+# Keep everything in one layer to reduce image size.
+# - Install Python3 + pip (for Ansible), OpenSSH server, sudo, bash, and adduser/usermod tools
+# - Create 'ansible' user, unlock/clear password, and grant passwordless sudo
+# - Harden sshd: no root login, no password auth, pubkey only
+# - Prepare ansible home/.ssh with correct permissions
+# - Generate host keys (lab convenience)
+# - Clean apt caches to keep image small
+RUN set -eux; \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        python3 \
+        python3-pip \
+        openssh-server \
+        sudo \
+        bash \
+        ca-certificates \
+        vim-tiny \
+        # adduser/usermod are provided by the 'passwd' base utilities in Debian; included by default \
+    && rm -rf /var/lib/apt/lists/* \
+    \
+    # Create ansible user (shell bash), unlock account, remove password
+    && adduser --disabled-password --shell /bin/bash --gecos "" ansible \
+    && passwd -d ansible || true \
+    \
+    # Passwordless sudo for ansible
+    && echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible \
+    && chmod 0440 /etc/sudoers.d/ansible \
+    \
+    # Ensure sshd has a place for its runtime files (Debian's sshd uses /var/run/sshd by default)
+    && mkdir -p /var/run/sshd \
+    \
+    # SSH hardening: disable root login & passwords, enable pubkey auth
+    && sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config \
+    && sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config \
+    && sed -i 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config \
+    # Ensure AuthorizedKeysFile points to ~/.ssh/authorized_keys (Debian default includes .ssh/authorized_keys)
+    && grep -q "^AuthorizedKeysFile" /etc/ssh/sshd_config || echo "AuthorizedKeysFile .ssh/authorized_keys" >> /etc/ssh/sshd_config \
+    \
+    # Prepare ansible home and .ssh dir with secure permissions
+    && install -d -m 0755 -o ansible -g ansible /home/ansible \
+    && install -d -m 0700 -o ansible -g ansible /home/ansible/.ssh \
+    \
+    # Generate SSH host keys during build (lab convenience)
+    && ssh-keygen -A
+
+# Optional: simple healthcheck to confirm sshd is alive (pgrep is in procps; omitted to keep minimal)
+# HEALTHCHECK CMD pgrep sshd || exit 1
+
+EXPOSE 22
+
+# Run sshd in foreground with verbose logging
+CMD ["/usr/sbin/sshd", "-D", "-e"]
